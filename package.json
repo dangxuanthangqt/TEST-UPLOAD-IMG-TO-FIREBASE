@@ -7,7 +7,7 @@
     "formik": "0.10.5",
     "lodash": "^4.17.15",
     "react": "16.0.0",
-    "react-dom": "16.0.0",
+    "react-dom": "16.0.1",
     "react-dropzone": "4.2.3",
     "react-recaptcha": "2.3.5",
     "yup": "0.23.0"
