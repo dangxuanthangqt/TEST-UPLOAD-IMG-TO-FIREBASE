@@ -7,7 +7,7 @@ import Recaptcha from "react-recaptcha";
 //import { storage } from './configFirebase';
 import Thumb from "./Thumb";
 import { storage } from './configFirebase';
-import { map } from 'lodash';
+//import { map } from 'lodash';
 const dropzoneStyle = {
   width: "100%",
   height: "auto",
@@ -66,11 +66,11 @@ class App extends React.Component {
             email: yup.string().email().required(),
            
           })}
-          render={({ values, errors, touched, handleSubmit, handleChange, setFieldValue }) => {
-            console.log(values.attachments)
+          render={(props) => {
+           console.log(props.values.attachments)
             return (
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
+            <form onSubmit={props.handleSubmit}>
+              {/* <div className="form-group">
                 <label for="name">Name</label>
                 <input id="name" name="name" type="text" className="form-control"
                   value={values.name} onChange={handleChange} />
@@ -86,7 +86,7 @@ class App extends React.Component {
                 {errors.email && touched.email && (
                   <p>{errors.email}</p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div className="form-group">
                 <label for="photo">Photo</label>
@@ -107,21 +107,25 @@ class App extends React.Component {
 
                   //ACEPTED FILES tra ve ARAAY nen dung map hoac dung arr[0]
 
+                  // 3 cach loi hien thi list thumb
+                     // props.setFieldValue("attachments", props.values.attachments.concat(acceptedFiles));
                     storage.ref('guests')
                     .child(acceptedFiles[0].name)
                     .put(acceptedFiles[0], {
                       contentType: acceptedFiles[0].type,
                     })
                     .then((snapshot)=>{
+                     // props.setFieldValue("attachments", props.values.attachments.concat(acceptedFiles));
                      snapshot.ref.getDownloadURL().then( url =>{
                        console.log(url);
-                       setFieldValue("images", values.images.concat(url));
-                       setFieldValue("attachments", values.attachments.concat(acceptedFiles));
+                       console.log(props.values.attachments);
+                       props.setFieldValue("images", props.values.images.concat(url));
+                       props.setFieldValue("attachments", props.values.attachments.concat(acceptedFiles));
                      })
                     })
 
                     //return ;
-                // })
+                
                  
                   
                 
@@ -145,11 +149,11 @@ class App extends React.Component {
                       return "This file is not authorized";
                     }
 
-                    if (values.attachments.length === 0) {
+                    if (props.values.attachments.length === 0) {
                       return <p>Try dragging a file here!</p>
                     }
 
-                    return values.attachments.map((file, i) => (<Thumb key={i} file={file} />));
+                    return props.values.attachments.map((file, i) => (<Thumb key={i} file={file} />));
                   }}
                 </Dropzone> 
               </div>
